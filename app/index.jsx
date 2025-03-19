@@ -1,68 +1,78 @@
-import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { ImageBackground, Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
-const { width } = Dimensions.get('window'); // Haal de schermbreedte op
+const App = () => {
+    const router = useRouter();
 
-export default function WelcomeScreen() {
-  return (
-    <ImageBackground 
-      source={require('../assets/images/jack-ward-rknrvCrfS1k-unsplash(1).png')} 
-      style={styles.background}
-    >
-      <View style={styles.overlay}>
-        <Image source={require('../assets/images/Logo.png')} style={styles.logo} />
-        <Text style={styles.title}>Explore a new world with us</Text>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>REGISTER</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  );
-}
+    return (
+        <ImageBackground style={styles.background} source={require('../assets/images/jack-ward-rknrvCrfS1k-unsplash(1).png')}>
+            <StatusBar hidden={true} />
+            <View style={styles.overlay}>
+                <Image source={require('../assets/images/Logo.png')} style={styles.logo} />
+                <Text style={styles.title}>Explore a
+                    {'\n'}new world
+                    {'\n'}with us
+                </Text>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => router.push('/screens/auth/register')}>
+                        <Text style={styles.buttonText}>REGISTER</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => router.push('/screens/auth/login')}>
+                        <Text style={styles.buttonText}>LOGIN</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </ImageBackground>
+    );
+};
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  
-  logo: {
-    top: 50,
-    left: 10,
-    marginBottom: 10,
-  },
-  title: {
-    fontSize: 50,
-    fontWeight: 'bold',
-    color: '#fff',
-    top: 300,
-    width: 300,
-  },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 30, 
-    width: '100%', 
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#000',
-    paddingVertical: 15,
-    width: 350, 
-    borderRadius: 15,
-    marginVertical: 5,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+    background: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        filter: 'brightness(1.5)',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        justifyContent: 'space-between',
+        padding: 20,
+        paddingBottom: 50,
+    },
+    logo: {
+        width: 150,
+        height: 150,
+        resizeMode: 'contain',
+        position: 'absolute',
+        top: 40,
+        left: 20,
+    },
+    title: {
+        fontSize: 50,
+        color: '#fff',
+        lineHeight: 50,
+        marginTop: 375,
+    },
+    buttonContainer: {
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    button: {
+        width: '100%',
+        backgroundColor: '#000',
+        padding: 15,
+        borderRadius: 15,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
 });
+
+export default App;
