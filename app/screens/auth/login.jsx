@@ -41,7 +41,7 @@ const Login = () => {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <TouchableOpacity style={styles.button} onPress={() => router.replace('/screens/tabs/home')}>
                     <Text style={styles.buttonText}>LOGIN</Text>
                 </TouchableOpacity>
 
@@ -76,8 +76,15 @@ const styles = StyleSheet.create({
         left: 20,
     },
     formContainer: {
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gab: 20,
         width: '100%',
-        paddingBottom: 15,
+        height: '100%',	
+
+        margingBottom: 100,
         alignItems: 'center',
     },
     input: {
