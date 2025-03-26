@@ -4,8 +4,8 @@ import React from 'react';
 const DATA = [
     { id: '1', destination: 'London', date: 'maart 2024 - april 2024', flag: '🇬🇧', bg: require('../../../assets/images/countries/londen.jpg') },
     { id: '2', destination: 'Paris', date: 'april 2024 - mei 2024', flag: '🇫🇷', bg: require('../../../assets/images/countries/paris.jpg') },
-    { id: '3', destination: 'Tokyo', date: 'februari 2024 - maart 2024', flag: '🇯🇵' },
-    { id: '4', destination: 'New York', date: 'januari 2024 - februari 2024', flag: '🇺🇸'},
+    { id: '3', destination: 'Tokyo', date: 'februari 2024 - maart 2024', flag: '🇯🇵' , bg: require('../../../assets/images/countries/Tokyo.png') },
+    { id: '4', destination: 'Barcelona', date: 'januari 2024 - februari 2024', flag: '🇪🇸', bg: require('../../../assets/images/countries/Barcelona.png') },
     { id: '5', destination: 'Berlin', date: 'mei 2024 - juni 2024', flag: '🇩🇪'},
     { id: '6', destination: 'Sydney', date: 'juli 2024 - augustus 2024', flag: '🇦🇺' },
     { id: '7', destination: 'Rome', date: 'mei 2024 - juni 2024', flag: '🇮🇹' },
@@ -27,10 +27,10 @@ const DATA = [
     { id: '23', destination: 'Rio de Janeiro', date: 'juli 2025 - augustus 2025', flag: '🇧🇷' },
     { id: '24', destination: 'Cape Town', date: 'augustus 2025 - september 2025', flag: '🇿🇦' },
 ];
-
 export default function HomeScreen() {
     return (
         <View style={styles.container}>
+            <Text style={styles.header}>🌴 My Trips</Text>
             <FlatList
                 data={DATA}
                 keyExtractor={item => item.id}
@@ -39,8 +39,8 @@ export default function HomeScreen() {
                         <View style={styles.overlay}>
                             <View style={styles.flagContainer}>
                                 <Text style={styles.flag}>{item.flag}</Text>
+                                <Text style={styles.destination}>{item.destination}</Text>
                             </View>
-                            <Text style={styles.destination}>{item.destination}</Text>
                             <Text style={styles.date}>{item.date}</Text>
                         </View>
                     </ImageBackground>
@@ -56,9 +56,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         padding: 20,
     },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
     card: {
-        height: 150,
-        justifyContent: 'center',
+        height: 200,
+        justifyContent: 'flex-end',
         marginBottom: 15,
         borderRadius: 15,
         overflow: 'hidden',
@@ -68,26 +73,26 @@ const styles = StyleSheet.create({
     },
     overlay: {
         flex: 1,
+        justifyContent: 'space-between',
+        padding: 15,
         backgroundColor: 'rgba(0,0,0,0.3)',
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderRadius: 15,
     },
     flagContainer: {
-        position: 'absolute',
-        top: 10,
-        left: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: 'white',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
+        padding: 10,
         borderRadius: 10,
+        alignSelf: 'flex-start',
     },
     flag: {
         fontSize: 20,
+        marginRight: 5,
     },
     destination: {
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: 'bold',
-        color: 'white',
     },
     date: {
         fontSize: 16,

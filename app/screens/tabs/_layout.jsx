@@ -9,7 +9,7 @@ export default function TabsLayout() {
         tabBarLabel: () => null,
         tabBarStyle: {
           height: 80,
-          paddingBottom: 5,
+          paddingBottom: 100,
           paddingTop: 10,
         },
       }}
