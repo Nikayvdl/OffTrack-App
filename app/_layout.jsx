@@ -9,4 +9,5 @@ export default function Layout() {
       <Stack.Screen name="screens/detailScreen" options={{ presentation: "modal", title: "Details" }} />
     </Stack>
   );
+
 }
