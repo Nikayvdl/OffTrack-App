@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     borderRadius: 55,
     backgroundColor: "white",
     justifyContent: "center",
+    alignItems: "center",
     borderWidth: 3,
     borderColor: "white",
   },
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
   profileTextContainer: {
     marginTop: 10,
     left:10,
-    
   },
   name: {
     fontSize: 20,
