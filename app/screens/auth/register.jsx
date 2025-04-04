@@ -1,26 +1,36 @@
 import { ImageBackground, Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Register = () => {
     const router = useRouter();
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         if (!email || !password || !confirmPassword) {
-            Alert.alert('Validation Error', 'All fields are required.');
+            Alert.alert("Validation Error", "All fields are required.");
             return;
         }
-
+        if (password.length < 6) {
+            Alert.alert("Validation Error", "Password must be at least 6 characters long!");
+            return;
+        }
         if (password !== confirmPassword) {
-            Alert.alert('Validation Error', 'Passwords do not match.');
+            Alert.alert("Validation Error", "Passwords do not match.");
             return;
         }
 
-        router.push('/screens/auth/login');
+        try {
+            await AsyncStorage.setItem('user', JSON.stringify({ email, password }));
+            Alert.alert("Success", "Account created successfully!", [
+                { text: "OK", onPress: () => router.push('/screens/auth/login') }
+            ]);
+        } catch (error) {
+            Alert.alert("Error", "Something went wrong. Please try again.");
+        }
     };
 
     return (
@@ -102,7 +112,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         paddingLeft: 15,
         marginBottom: 10,
-        size: 16,
+        fontSize: 16,
     },
     button: {
         width: '95%',

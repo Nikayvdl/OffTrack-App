@@ -1,20 +1,37 @@
 import { ImageBackground, Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
     const router = useRouter();
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
- 
-    const handleLogin = () => {
+
+    const handleLogin = async () => {
         if (!email || !password) {
-            Alert.alert('Validation Error', 'Both fields are required.');
+            Alert.alert("Validation Error", "Both fields are required.");
             return;
         }
 
-        router.push('/screens/tabs/home');
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            if (!userData) {
+                Alert.alert("Error", "No account found. Please register first!");
+                return;
+            }
+
+            const { email: storedEmail, password: storedPassword } = JSON.parse(userData);
+
+            if (email === storedEmail && password === storedPassword) {
+                Alert.alert("Success", "Login successful!");
+                router.push('/screens/tabs/home');
+            } else {
+                Alert.alert("Error", "Incorrect email or password!");
+            }
+        } catch (error) {
+            Alert.alert("Error", "Something went wrong. Please try again.");
+        }
     };
 
     return (
@@ -41,7 +58,7 @@ const Login = () => {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={() => router.replace('/screens/tabs/home')}>
+                <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>LOGIN</Text>
                 </TouchableOpacity>
 
@@ -80,11 +97,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        gab: 20,
         width: '100%',
-        height: '100%',	
-
-        alignItems: 'center',
+        height: '100%',
     },
     input: {
         width: '95%',

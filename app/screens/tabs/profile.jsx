@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileScreen() {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = await AsyncStorage.getItem("user");
+      if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        setUserName(userData.email.split("@")[0]);
+      }
+    };
+    fetchUser();
+  }, []);
+
   const favorites = [
     {
       id: "1",
@@ -32,7 +46,7 @@ export default function ProfileScreen() {
           />
         </View>
         <View style={styles.profileTextContainer}>
-          <Text style={styles.name}>Nikay van der Linden</Text>
+          <Text style={styles.name}>{userName || "User"}</Text>
           <Text style={styles.pronouns}>he/him</Text>
         </View>
       </View>
@@ -40,7 +54,7 @@ export default function ProfileScreen() {
       {/* Bio Section */}
       <View style={styles.bioContainer}>
         <Text style={styles.bioText}>
-          Nikay is a passionate traveler who loves discovering new places and
+          {userName} is a passionate traveler who loves discovering new places and
           immersing himself in different cultures. From tasting local delicacies
           to exploring historical sites, he finds joy in learning about the
           world. Travel is not just a hobby—it’s a way of life!
@@ -58,8 +72,6 @@ export default function ProfileScreen() {
         )}
         showsHorizontalScrollIndicator={false}
       />
-
-      {/* Countries Section */}
     </View>
   );
 }
@@ -94,7 +106,7 @@ const styles = StyleSheet.create({
   },
   profileTextContainer: {
     marginTop: 10,
-    left:10,
+    left: 10,
   },
   name: {
     fontSize: 20,
@@ -126,15 +138,5 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 10,
     margin: 10,
-  },
-  countriesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 20,
-  },
-  countryImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
   },
 });
